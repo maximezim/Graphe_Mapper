@@ -1,6 +1,6 @@
 from classes import *
 
-# Représentation d'un graphe sous forme de liste d'adjacence
+#Représentation d'un graphe sous forme de liste d'adjacence
 
 class Graphe:
     def __init__(self):
