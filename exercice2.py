@@ -9,7 +9,7 @@ def inclus_sommet(G, G_prime, strict):
         if s not in G_prime.sommets:
             return 0
     if strict == 1:
-        if len(G.sommets) == len(G_prime.sommets):
+        if len(G.sommets) >= len(G_prime.sommets):
             return 0
     return 1
 
@@ -19,13 +19,13 @@ def inclus_arete(G, G_prime):
     for a in G.aretes:
         if a not in G_prime.aretes:
             return 0
-    if len(G.aretes) == len(G_prime.aretes):
+    if len(G.aretes) >= len(G_prime.aretes):
         return 0
     return 1
 
 # Renvoie 1 si G est partiel de G_prime, 0 sinon
 def est_partiel(G, G_prime):
-    if inclus_arete(G, G_prime) == 1:
+    if inclus_arete(G, G_prime) == 1 and inclus_sommet(G, G_prime, 0) == 1 and len(G.sommets) == len(G_prime.sommets):
         return 1
     return 0
 
@@ -35,17 +35,21 @@ def est_sous_graphe(G, G_prime):
         return 1
     return 0
 
+# def est_sous_graphe_partiel(G, G_prime):
+#     if est_sous_graphe(G, G_prime) == 1 and est_partiel(G, G_prime) == 1:
+#         return 1
+#     return 0
+
 def est_sous_graphe_partiel(G, G_prime):
-    if est_sous_graphe(G, G_prime) == 1 and est_partiel(G, G_prime) == 1:
+    if inclus_sommet(G, G_prime, 1) == 1 and inclus_arete(G, G_prime) == 1:
         return 1
-    return 0
 
 def est_clique(G, G_prime):
     if est_sous_graphe(G, G_prime) == 1:
         for s in G.sommets:
-            print(s, end = " : ")
-            print(s.voisins)
-            print(len(s.voisins), len(G.sommets) - 1)
+            # print(s, end = " : ")
+            # print(s.voisins)
+            # print(len(s.voisins), len(G.sommets) - 1)
             if len(s.voisins) != (len(G.sommets) - 1):
                 return 0
         return 1
@@ -68,6 +72,7 @@ if __name__ == "__main__":
 
     s4 = Sommet("A", 1)
     s5 = Sommet("B", 2)
+    s6 = Sommet("C", 3)
 
     li.add_sommet(gprime, s1)
     li.add_sommet(gprime, s2)
@@ -79,9 +84,13 @@ if __name__ == "__main__":
     g = li.graphe_vide()
     li.add_sommet(g, s4)
     li.add_sommet(g, s5)
+    # li.add_sommet(g, s6)
 
-    li.add(g, s4, s5)
-
-    print("Clique :",est_clique(g, gprime))
-    print("Sous-Graphe :",est_sous_graphe_partiel(g, gprime))
-    print("Stable :" , est_stable(g, gprime))
+    # li.add(g, s4, s5)
+    print("Inclu Sommet:",bool(inclus_sommet(g, gprime, 0)))
+    print("Inclu Arete:",bool(inclus_arete(g, gprime)))
+    print("Partiel :",bool(est_partiel(g, gprime)))
+    print("Sous-Graphe :",bool(est_sous_graphe(g, gprime)))
+    print("Sous-Graphe partiel:",bool(est_sous_graphe_partiel(g, gprime)))
+    print("Clique :",bool(est_clique(g, gprime)))
+    print("Stable :" , bool(est_stable(g, gprime)))
