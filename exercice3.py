@@ -93,38 +93,38 @@ def donne_centredegre(G, D):
             maxi.append(d[0])
     return len(maxi)
 
-
+# test
 if __name__ == "__main__":
-    gprime = li.graphe_vide()
+    graphe = li.graphe_vide()
     s1 = Sommet("A", 1)
     s2 = Sommet("B", 2)
     s3 = Sommet("C", 3)
     s4 = Sommet("D", 4)
     s5 = Sommet("E", 5)
 
-    li.add_sommet(gprime, s1)
-    li.add_sommet(gprime, s2)
-    li.add_sommet(gprime, s3)
-    li.add_sommet(gprime, s4)
-    li.add_sommet(gprime, s5)
+    li.add_sommet(graphe, s1)
+    li.add_sommet(graphe, s2)
+    li.add_sommet(graphe, s3)
+    li.add_sommet(graphe, s4)
+    li.add_sommet(graphe, s5)
 
-    li.add(gprime, s1, s2)
-    li.add(gprime, s2, s3)
-    li.add(gprime, s1, s4)
-    li.add(gprime, s3, s5)
+    li.add(graphe, s1, s2)
+    li.add(graphe, s2, s3)
+    li.add(graphe, s1, s4)
+    li.add(graphe, s3, s5)
 
     # test rayon
-    li.add(gprime, s1, s3)
+    li.add(graphe, s1, s3)
 
-    print(excentricite(s4,gprime))
-    print(calcul_distances(gprime))
-    print(rayon(gprime))
+    print(excentricite(s4,graphe))
+    print(calcul_distances(graphe))
+    print(rayon(graphe))
 
-    donnees_dist = calcul_distances(gprime)
-    print(donne_diametre(gprime, donnees_dist))
+    donnees_dist = calcul_distances(graphe)
+    print(donne_diametre(graphe, donnees_dist))
 
-    print(donne_centres(gprime))
+    print(donne_centres(graphe))
 
-    print(calcul_degrees(gprime))
-    print(donne_centredegre(gprime, calcul_degrees(gprime)))
+    print(calcul_degrees(graphe))
+    print(donne_centredegre(graphe, calcul_degrees(graphe)))
 
