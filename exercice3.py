@@ -59,8 +59,15 @@ def calcul_distances(G):
                 if i[2] < j[2]:
                     shortest.remove(j)    
     return shortest
-        
-def centre(G):
+
+def rayon(G):
+    return excentricite(donne_centres(G)[0],G)
+
+def donne_diametre(G, D):
+    # on retourne la derniere valeur de la liste D puisque D est triee
+    return D[-1][2]
+
+def donne_centres(G):
     m = []
     for s in G.sommets:
         minimum = excentricite(s,G)
@@ -71,12 +78,20 @@ def centre(G):
             liste.append(G.sommets[i])
     return liste
 
-def rayon(G):
-    return excentricite(centre(G)[0],G)
+def calcul_degrees(G):
+    liste = []
+    for s in G.sommets:
+        liste.append([s, len(s.voisins)])
+    return liste
 
-def donne_diametre(G, D):
-    # on retourne la derniere valeur de la liste D puisque D est triee
-    return D[-1][2]
+def donne_centredegre(G, D):
+    listecentres = donne_centres(G)
+    sommetmax = max(i[1] for i in D)
+    maxi = []
+    for d in D:
+        if d[1] == sommetmax and d[0] in listecentres:
+            maxi.append(d[0])
+    return len(maxi)
 
 
 if __name__ == "__main__":
@@ -103,9 +118,13 @@ if __name__ == "__main__":
 
     print(excentricite(s4,gprime))
     print(calcul_distances(gprime))
-    print(centre(gprime))
     print(rayon(gprime))
 
     donnees_dist = calcul_distances(gprime)
     print(donne_diametre(gprime, donnees_dist))
+
+    print(donne_centres(gprime))
+
+    print(calcul_degrees(gprime))
+    print(donne_centredegre(gprime, calcul_degrees(gprime)))
 
