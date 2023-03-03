@@ -63,7 +63,7 @@ def est_stable(G, G_prime):
             return 1
     return 0
 
-# test est_cliaue
+# test
 if __name__ == "__main__":
     gprime = li.graphe_vide()
     s1 = Sommet("A", 1)

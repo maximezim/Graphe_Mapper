@@ -6,19 +6,59 @@ from exercice2 import *
 
 def excentricite(s:Sommet, S):
     liste = []
-    for voisins in s:
-        if voisins in S:
+    for voisins in s.voisins:
+        if voisins in S.sommets:
             liste.append(voisins) if voisins not in liste else None
     if liste == S.sommets:
         return 1
     cpt = 1
     while liste != S.sommets:
-        for s in liste:
-            for voisins in s.voisins:
+        for i in range (len(liste)):
+            for voisins in liste[i].voisins:
                 if voisins not in liste:
                     liste.append(voisins)
-            cpt += 1
+        # tri de la liste
+        cpt += 1
+        liste.sort(key=lambda x: x.identifiant)
     return cpt
+
+def calcul_distances(G):
+    # calcule les plus courtes distances entre chaque couple de sommets
+    listeDistances = []
+    for s in G.sommets:
+        # ajoute la liste des distances du sommet s
+        liste = []
+        cpt = 1
+        for voisins in s.voisins:
+            liste.append(voisins) if voisins not in liste else None
+        for i in liste:
+            listeDistances.append([s, i, cpt])
+        while liste != G.sommets:
+            for i in range (len(liste)):
+                for voisins in liste[i].voisins:
+                    if voisins not in liste:
+                        liste.append(voisins)
+            # tri de la liste
+            cpt += 1
+            liste.sort(key=lambda x: x.identifiant)
+            for i in liste:
+                listeDistances.append([s, i, cpt])
+    # for i in listeDistances:
+    #     for j in listeDistances:
+    #         if i[0] == j[1] and i[1] == j[0]:
+    #             listeDistances.remove(j)
+    for i in listeDistances:
+        if i[0] == i[1]:
+            listeDistances.remove(i)
+    shortest = []
+    # copie de listeDistances dans shortest
+    shortest = listeDistances.copy()
+    for i in listeDistances:
+        for j in shortest:
+            if i[0] == j[0] and i[1] == j[1]:
+                if i[2] < j[2]:
+                    shortest.remove(j)    
+    return shortest
         
 def centre(G):
     m = []
@@ -28,14 +68,44 @@ def centre(G):
     liste = []
     for i in range(len(m)):
         if m[i] == min(m):
-            liste.append(m[i])
+            liste.append(G.sommets[i])
     return liste
 
 def rayon(G):
-    r = []
-    for c in centre(G):
-        r.append(excentricite(c,G))
-    return r
+    return excentricite(centre(G)[0],G)
 
-def diametre(G):
-    return None
+def donne_diametre(G, D):
+    # on retourne la derniere valeur de la liste D puisque D est triee
+    return D[-1][2]
+
+
+if __name__ == "__main__":
+    gprime = li.graphe_vide()
+    s1 = Sommet("A", 1)
+    s2 = Sommet("B", 2)
+    s3 = Sommet("C", 3)
+    s4 = Sommet("D", 4)
+    s5 = Sommet("E", 5)
+
+    li.add_sommet(gprime, s1)
+    li.add_sommet(gprime, s2)
+    li.add_sommet(gprime, s3)
+    li.add_sommet(gprime, s4)
+    li.add_sommet(gprime, s5)
+
+    li.add(gprime, s1, s2)
+    li.add(gprime, s2, s3)
+    li.add(gprime, s1, s4)
+    li.add(gprime, s3, s5)
+
+    # test rayon
+    li.add(gprime, s1, s3)
+
+    print(excentricite(s4,gprime))
+    print(calcul_distances(gprime))
+    print(centre(gprime))
+    print(rayon(gprime))
+
+    donnees_dist = calcul_distances(gprime)
+    print(donne_diametre(gprime, donnees_dist))
+
