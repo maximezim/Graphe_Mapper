@@ -3,6 +3,25 @@ import listes as li
 import matrices as mt
 import conversion as cv
 
+# redéfinition de l'égalité entre deux sommets
+'''
+Dans cet exercice en prendra en compte les noms des sommets dans la comparaison des ensembles de
+sommets. Cela signifie que deux graphes peuvent avoir les mêmes sommets (mêmes noms) mais pas
+avec les mêmes identifiants. En représentant les sommets par un couple (numéro, nom) on pourrait
+avoir par exemple :
+S = { (1, "valenciennes"), (2, "lille"), (3, "lens") }, et
+S’ = { (1, "lille"), (2, "lens"), (3, "valenciennes") }.
+Dans ce cas on considérera que S = S’.
+
+'''
+def __eq__(self, other):
+    if self.nom == other.nom:
+        return True
+    return False
+
+Sommet.__eq__ = __eq__
+
+
 # Renvoie 1 si G est inclus dans G_prime, 0 sinon
 def inclus_sommet(G, G_prime, strict):
     for s in G.sommets:
@@ -77,8 +96,8 @@ if __name__ == "__main__":
     li.add_sommet(g, s4)
     li.add_sommet(g, s5)
     # li.add_sommet(g, s6)
-
     # li.add(g, s4, s5)
+
     print("Inclu Sommet:",bool(inclus_sommet(g, graphe, 0)))
     print("Inclu Arete:",bool(inclus_arete(g, graphe)))
     print("Partiel :",bool(est_partiel(g, graphe)))
@@ -86,3 +105,30 @@ if __name__ == "__main__":
     print("Sous-Graphe partiel:",bool(est_sous_graphe_partiel(g, graphe)))
     print("Clique :",bool(est_clique(g, graphe)))
     print("Stable :" , bool(est_stable(g, graphe)))
+    print()
+
+    # essai avec valenciennes, lille, lens
+    graphe_ville = li.graphe_vide()
+    graphe_ville2 = li.graphe_vide()
+    s1 = Sommet("valenciennes", 1)
+    s2 = Sommet("lille", 2)
+    s3 = Sommet("lens", 3)
+    s4 = Sommet("valenciennes", 3)
+    s5 = Sommet("lille", 1)
+    s6 = Sommet("lens", 2)
+
+    li.add_sommet(graphe_ville, s1)
+    li.add_sommet(graphe_ville, s2)
+    li.add_sommet(graphe_ville, s3)
+    li.add(graphe_ville, s1, s2)
+    li.add(graphe_ville, s1, s3)
+    li.add(graphe_ville, s2, s3)
+
+    li.add_sommet(graphe_ville2, s4)
+    li.add_sommet(graphe_ville2, s5)
+    li.add_sommet(graphe_ville2, s6)
+    li.add(graphe_ville2, s4, s5)
+    li.add(graphe_ville2, s4, s6)
+    li.add(graphe_ville2, s5, s6)
+
+    print("Inclu Sommet Ville:",bool(inclus_sommet(graphe_ville, graphe_ville2, 0)))
