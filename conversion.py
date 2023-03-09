@@ -3,6 +3,8 @@ import listes
 import matrices
 import os
 
+# on convertit d'un graphe à un autre en sauvegardant en fichier temporaire
+
 def matrice_to_liste(G):
     matrices.save(G, "temp")
     L = listes.load("temp")

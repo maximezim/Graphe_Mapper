@@ -116,15 +116,15 @@ if __name__ == "__main__":
     # test rayon
     li.add(graphe, s1, s3)
 
-    print(excentricite(s4,graphe))
-    print(calcul_distances(graphe))
-    print(rayon(graphe))
+    print("excentricité: ", excentricite(s4,graphe))
+    print("distance: ",calcul_distances(graphe))
+    print("rayon: ",rayon(graphe))
 
     donnees_dist = calcul_distances(graphe)
-    print(donne_diametre(graphe, donnees_dist))
+    print("diametre: ", donne_diametre(graphe, donnees_dist))
 
-    print(donne_centres(graphe))
+    print("centres: ",donne_centres(graphe))
 
-    print(calcul_degrees(graphe))
-    print(donne_centredegre(graphe, calcul_degrees(graphe)))
+    print("degré : ", calcul_degrees(graphe))
+    print("centres via le degré: ",donne_centredegre(graphe, calcul_degrees(graphe)))
 
